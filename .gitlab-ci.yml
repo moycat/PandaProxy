@@ -1,0 +1,21 @@
+stages:
+  - build
+
+build:
+  stage: build
+  image: golang:1.13-buster
+  script:
+    - go build -o panda
+  artifacts:
+    paths:
+      - panda
+  only:
+    - tags
+
+dry-build:
+  stage: build
+  image: golang:1.13-buster
+  script:
+    - go build -o panda
+  except:
+    - tags
