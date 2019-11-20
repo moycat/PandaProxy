@@ -7,20 +7,17 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	"os"
 	"strings"
-	"time"
 )
 
 var (
-	rootUrl = os.Getenv("PANDA_ROOT_URL")
-	client  *http.Client
+	client *http.Client
 )
 
 func init() {
 	dialer := &net.Dialer{
-		Timeout:   time.Second * 30,
-		KeepAlive: 30 * time.Second,
+		Timeout:   connTimeout,
+		KeepAlive: connKeepAlive,
 	}
 	client = &http.Client{
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
@@ -30,7 +27,7 @@ func init() {
 			DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
 				return dialer.DialContext(ctx, network, addr)
 			},
-			MaxIdleConnsPerHost: 20,
+			MaxIdleConnsPerHost: connMaxIdle,
 			DisableCompression:  true,
 		},
 	}

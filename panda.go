@@ -3,13 +3,7 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"os"
 	"strconv"
-)
-
-var (
-	publicMemberID = os.Getenv("PANDA_PUBLIC_MEMBER_ID")
-	publicPassHash = os.Getenv("PANDA_PUBLIC_PASS_HASH")
 )
 
 type PandaContext struct {
