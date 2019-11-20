@@ -17,5 +17,9 @@ dry-build:
   image: golang:1.13-buster
   script:
     - go build -o panda
+  artifacts:
+    paths:
+      - panda
+    expire_in: 3 days
   except:
     - tags

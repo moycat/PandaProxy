@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -9,7 +10,9 @@ import (
 var (
 	publicMemberID string
 	publicPassHash string
-	rootUrl        string
+	rootScheme     string
+	rootHost       string
+	rootPath       string
 	connTimeout    time.Duration
 	connKeepAlive  time.Duration
 	connMaxIdle    int
@@ -18,7 +21,16 @@ var (
 func init() {
 	publicMemberID = os.Getenv("PANDA_PUBLIC_MEMBER_ID")
 	publicPassHash = os.Getenv("PANDA_PUBLIC_PASS_HASH")
-	rootUrl = os.Getenv("PANDA_ROOT_URL")
+	rootScheme = os.Getenv("PANDA_ROOT_SCHEME")
+	if rootScheme == "" {
+		rootScheme = "https"
+	}
+	rootHost = os.Getenv("PANDA_ROOT_HOST")
+	if rootHost != "" {
+		rootPath = fmt.Sprintf("%s://%s", rootScheme, rootHost)
+	} else {
+		rootPath = "/"
+	}
 	timeoutEnv := os.Getenv("PANDA_CONN_TIMEOUT")
 	if timeoutEnv == "" {
 		connTimeout = time.Second * 30

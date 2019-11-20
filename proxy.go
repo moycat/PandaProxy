@@ -12,6 +12,7 @@ import (
 
 var (
 	client *http.Client
+
 )
 
 func init() {
@@ -95,8 +96,8 @@ func handle(c echo.Context) error {
 		return c.String(500, "server error")
 	}
 	_ = resp.Body.Close()
-	body = bytes.ReplaceAll(body, []byte("https://exhentai.org"), []byte(rootUrl))
-	body = bytes.ReplaceAll(body, []byte("exhentai.org"), []byte(req.Host))
+	body = bytes.ReplaceAll(body, []byte("https://exhentai.org"), []byte(rootPath))
+	body = bytes.ReplaceAll(body, []byte("exhentai.org"), []byte(rootHost))
 
 	return c.Stream(resp.StatusCode, contentType, bytes.NewReader(body))
 }
